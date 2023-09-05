@@ -15,8 +15,10 @@ jobs:
         run: pwd
 
       - name: Deploy manifests
-        run: |
-          kubectl apply -f /home/runner/work/ChallengeDevOps/ChallengeDevOps/manifests/deployments.yaml
+        uses: hiberbee/github-action-minikube@latest
+        with:
+          manifests: |
+            manifests/deploy.yaml
           
       - name: Get Minikube status
         run: minikube status
