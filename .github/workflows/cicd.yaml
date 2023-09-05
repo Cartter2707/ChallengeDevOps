@@ -22,9 +22,8 @@ jobs:
         
       - name: Deploy manifests
         run: |
-          for file in $(find /manifests/ -type f -name "*.yaml"); do
-            kubectl apply -f "$file"
-          done
+          kubectl apply -f manifests/deploy.yaml
+          kubectl apply -f manifests/service.yaml
         working-directory: ${{ github.workspace }}
         
       - name: Get All Info
