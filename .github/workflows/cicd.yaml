@@ -12,7 +12,7 @@ jobs:
           profile: github
 
       - name: Deploy
-        run: kubectl apply -f ./manifests/deploy.yaml 
+        run: kubectl apply -f deploy.yaml 
         
       - name: Get All Info
         run: kubectl get all 
