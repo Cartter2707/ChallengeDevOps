@@ -14,6 +14,12 @@ jobs:
         with:
           profile: github
           
+      - name: Create NameSpace
+        run: kubectl create namespace my-challenge
+        
+      - name: Get Info
+        run: kubectl get namespaces
+        
       - name: Deploy
         run: kubectl apply -f deploy.yaml 
         working-directory: ${{ github.workspace }}
