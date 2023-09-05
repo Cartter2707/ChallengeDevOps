@@ -16,11 +16,7 @@ jobs:
 
       - name: Deploy manifests
         run: |
-          cd /home/runner/work/ChallengeDevOps/ChallengeDevOps/manifests/
-          for file in *.yaml; do
-           kubectl apply -f "$file"
-          done
-          kubectl get all
+          kubectl apply -f /manifests/deployments.yaml
           
       - name: Get Minikube status
         run: minikube status
