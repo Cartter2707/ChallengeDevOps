@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: apache-deployment
-  namespace: apache-deployment
+  namespace: my-challenge
 spec:
   replicas: 1
   selector:
