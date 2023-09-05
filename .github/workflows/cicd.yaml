@@ -19,7 +19,11 @@ jobs:
         with:
           manifests: |
             manifests/deploy.yaml
-          
+            manifests/service.yaml
+            
+      - name: Get All Info
+        run: kubectl get all
+        
       - name: Get Minikube status
         run: minikube status
 
