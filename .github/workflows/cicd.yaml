@@ -15,13 +15,16 @@ jobs:
           profile: github
           
       - name: Create NameSpace
-        run: kubectl create namespace my-challenge
+        run: kubectl create namespace apacheproject
         
       - name: Get Info
         run: kubectl get namespaces
         
-      - name: Deploy
-        run: kubectl apply -f deploy.yaml 
+      - name: Deploy manifests
+        run: |
+          for file in $(find /manifests/ -type f -name "*.yaml"); do
+            kubectl apply -f "$file"
+          done
         working-directory: ${{ github.workspace }}
         
       - name: Get All Info
