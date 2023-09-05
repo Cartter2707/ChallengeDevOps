@@ -5,14 +5,14 @@ jobs:
     name: Start Kubernetes cluster
     runs-on: ubuntu-20.04
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
       - name: Start Minikube
         id: minikube
         uses: hiberbee/github-action-minikube@latest
         with:
           profile: github
-
-      - name: check directory
-        run: pwd
 
       - name: Deploy manifests
         uses: hiberbee/github-action-minikube@latest
