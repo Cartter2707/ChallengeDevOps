@@ -16,10 +16,10 @@ jobs:
 
       - name: Deploy manifests
         run: |
-          for file in $(find /home/runner/work/ChallengeDevOps/ChallengeDevOps/main/manifests -type f -name "*.yaml"); do
-            kubectl apply -f "$file"
-          done
-
+          cd /home/runner/work/ChallengeDevOps/ChallengeDevOps/manifests/
+          kubectl apply -f "*.yaml"
+          kubectl get all
+          
       - name: Get Minikube status
         run: minikube status
 
