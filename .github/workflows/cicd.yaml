@@ -11,13 +11,9 @@ jobs:
         with:
           profile: github
           
-      - name: Build
-        run: |
-          export SHELL=/bin/bash
-          eval $(minikube -p minikube docker-env)
-          
       - name: Deploy
         run: kubectl apply -f deploy.yaml 
+        working-directory: ${{ github.workspace }}
         
       - name: Get All Info
         run: kubectl get all 
