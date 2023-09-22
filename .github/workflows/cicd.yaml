@@ -16,7 +16,6 @@ jobs:
                  
       - name: Deploy manifests
         run: |
-          kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
           kubectl apply -f manifests/deploy.yaml
           kubectl apply -f manifests/service.yaml
           kubectl apply -f manifests/hpa.yaml
