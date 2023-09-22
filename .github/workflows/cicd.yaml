@@ -8,16 +8,18 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
         
-      - name: Start Minikube
-        id: minikube
-        uses: hiberbee/github-action-minikube@latest
+      - name: Set up kubectl
+        uses: azure/setup-kubectl@v1
         with:
-          profile: github
+          version: 'latest'
+          install kubectl: true
                  
       - name: Deploy manifests
         run: |
+          kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
           kubectl apply -f manifests/deploy.yaml
           kubectl apply -f manifests/service.yaml
+          kubectl apply -f manifests/hpa.yaml
         working-directory: ${{ github.workspace }}
         
       - name: Get All Info
@@ -28,8 +30,5 @@ jobs:
 
       - name: Get cluster info
         run: kubectl cluster-info
-
-      - name: Get Test Service URLs
-        run: minikube service list
       
         
