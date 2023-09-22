@@ -1,7 +1,7 @@
-name: Minikube workflow
+name: Kubectl workflow
 on: push
 jobs:
-  minikube:
+  kubernetes:
     name: Start Kubernetes cluster
     runs-on: ubuntu-20.04
     steps:
@@ -21,13 +21,15 @@ jobs:
           kubectl apply -f manifests/service.yaml
           kubectl apply -f manifests/hpa.yaml
         working-directory: ${{ github.workspace }}
-        
-      - name: Get All Info
-        run: kubectl get all 
-          
-      - name: Get Minikube status
-        run: minikube status
 
+      - name: Get All Info
+        run: kubectl get all
+        
+      - name: Get metrics info
+        run: |
+          kubectl -n kube-system get pods
+          kubectl top pods        
+          
       - name: Get cluster info
         run: kubectl cluster-info
       
