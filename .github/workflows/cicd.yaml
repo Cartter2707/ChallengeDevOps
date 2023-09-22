@@ -1,25 +1,29 @@
-name: Kubectl workflow
+name: Minikube workflow
 on: push
 jobs:
-  kubernetes:
+  minikube:
     name: Start Kubernetes cluster
     runs-on: ubuntu-20.04
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
         
-      - name: Set up kubectl
-        uses: azure/setup-kubectl@v1
+      - name: Start Minikube
+        id: minikube
+        uses: hiberbee/github-action-minikube@latest
         with:
-          version: 'latest'
-          install kubectl: true
+          profile: github
                  
       - name: Deploy manifests
         run: |
+          kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
           kubectl apply -f manifests/deploy.yaml
           kubectl apply -f manifests/service.yaml
           kubectl apply -f manifests/hpa.yaml
         working-directory: ${{ github.workspace }}
+
+      - name: Espera 30 segundos
+        run: sleep 30
 
       - name: Get All Info
         run: kubectl get all
