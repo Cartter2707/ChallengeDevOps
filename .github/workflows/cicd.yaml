@@ -1,39 +1,20 @@
-name: Minikube workflow
 on: push
+name: deploy
 jobs:
-  minikube:
-    name: Start Kubernetes cluster
-    runs-on: ubuntu-20.04
+  build-and-push:
+    name: build and push image
+    runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-        
-      - name: Start Minikube
-        id: minikube
-        uses: hiberbee/github-action-minikube@latest
-        with:
-          profile: github
-                 
-      - name: Deploy manifests
-        run: |
-          kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
-          kubectl apply -f manifests/deploy.yaml
-          kubectl apply -f manifests/service.yaml
-          kubectl apply -f manifests/hpa.yaml
-        working-directory: ${{ github.workspace }}
+    - uses: actions/checkout@master
+    - name: build and push to docker
+      uses: docker/build-push-action@v2
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+        repository: ${{ github.repository }}
+        tag_with_ref: true
+        tag_with_sha: true
+        tags: ${{ github.sha }}
 
-      - name: Espera 30 segundos
-        run: sleep 30
 
-      - name: Get All Info
-        run: kubectl get all
-        
-      - name: Get metrics info
-        run: |
-          kubectl -n kube-system get pods
-          kubectl top pods        
-          
-      - name: Get cluster info
-        run: kubectl cluster-info
-      
         
